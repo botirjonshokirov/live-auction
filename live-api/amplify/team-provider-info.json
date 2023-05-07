@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-liveapi-dev-214935-authRole",
+      "UnauthRoleArn": "arn:aws:iam::211966371659:role/amplify-liveapi-dev-214935-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::211966371659:role/amplify-liveapi-dev-214935-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-liveapi-dev-214935-deployment",
+      "UnauthRoleName": "amplify-liveapi-dev-214935-unauthRole",
+      "StackName": "amplify-liveapi-dev-214935",
+      "StackId": "arn:aws:cloudformation:us-east-2:211966371659:stack/amplify-liveapi-dev-214935/4dc85e30-ed10-11ed-8f8d-0a813e594511",
+      "AmplifyAppId": "d2e0t6t0bebqoz"
+    },
+    "categories": {
+      "auth": {
+        "liveapie76f17cb": {}
+      }
+    }
+  }
+}

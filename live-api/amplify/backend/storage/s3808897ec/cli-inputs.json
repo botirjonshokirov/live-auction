@@ -1,0 +1,13 @@
+{
+  "resourceName": "s3808897ec",
+  "policyUUID": "808897ec",
+  "bucketName": "liveapi6da5bcf12a874123ad2c51adc09dbee8",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
