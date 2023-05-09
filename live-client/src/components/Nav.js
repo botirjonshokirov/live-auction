@@ -1,54 +1,59 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import React from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 // Material UI Componeents
-import { Button, Link } from '@mui/material';
+import { Button, Link } from "@mui/material";
 // Files
-import './css/nav.css';
-import logo from '../images/nav-bar-banner.png';
+import "./css/nav.css";
 // Actions
-import { logout } from '../actions/auth';
+import { logout } from "../actions/auth";
 
 const Nav = (props) => {
   return (
-    <div className='nav'>
-      <div className='nav__group1'>
-        <div className='nav__image-container'>
-          <RouterLink to='/'>
-            <img className='nav__icon' src={logo} alt='navicon' href='/' />
+    <div className="nav">
+      <div className="nav__group1">
+        <div className="nav__image-container">
+          <RouterLink to="/">
+            <h2>Auction AEH</h2>
           </RouterLink>
         </div>
 
         {props.isAuth && (
-          <div className='nav__buttons'>
-            <RouterLink to='/' style={{ textDecoration: 'none' }}>
+          <div className="nav__buttons">
+            <RouterLink to="/" style={{ textDecoration: "none" }}>
               <Button>Home</Button>
             </RouterLink>
-            <RouterLink to='/dashboard' style={{ textDecoration: 'none' }}>
+            <RouterLink to="/dashboard" style={{ textDecoration: "none" }}>
               <Button>Dashboard</Button>
             </RouterLink>
-            <RouterLink to='/postad' style={{ textDecoration: 'none' }}>
+            <RouterLink to="/postad" style={{ textDecoration: "none" }}>
               <Button>Post Ad</Button>
             </RouterLink>
           </div>
         )}
       </div>
 
-      <div className='nav__group2'>
-        <div className='nav__account'>
+      <div className="nav__group2">
+        <div className="nav__account">
           {props.isAuth ? (
             <Link
-              href='#'
-              color='inherit'
+              href="#"
+              color="inherit"
               onClick={props.logout}
-              sx={{ textDecoration: 'none' }}
+              sx={{ textDecoration: "none" }}
             >
               Logout
             </Link>
           ) : (
-            <Link to='/login' sx={{ textDecoration: 'none' }}>
-              Login
-            </Link>
+            <RouterLink to="/login" sx={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ borderRadius: "50px", padding: "10px 20px" }}
+              >
+                Login
+              </Button>
+            </RouterLink>
           )}
         </div>
       </div>

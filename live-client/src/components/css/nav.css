@@ -10,10 +10,12 @@
   align-items: center;
   position: sticky;
   top: 0;
-  background-color: #ffffff;
+  background-color: transparent;
   width: 100%;
-  z-index: 100;
-  box-shadow: 0 0 7px 0px #cecece;
+}
+
+.nav__image-container h2 {
+  text-decoration: none;
 }
 
 .nav__group1,
