@@ -6,8 +6,8 @@ import { TextField, Button, Typography } from "@mui/material";
 import { login, skipLogin } from "../actions/auth";
 import { setAlert, removeAlert } from "../actions/alert";
 import Spinner from "./Spinner";
-import logo from "../images/auctionslogo3.png";
 import Alert from "./Alert";
+import "./css/Login.css";
 
 const Login = (props) => {
   const [formData, setForm] = useState({
@@ -37,10 +37,10 @@ const Login = (props) => {
     <Spinner />
   ) : (
     <Fragment>
-      <section className="auth__container">
+      <section className="auth__container_login">
         <div className="auth">
           <div className="auth__image-container">
-            <img className="app__icon" src={logo} alt="navicon" />
+            <h1>Auction AEH</h1>
           </div>
           <Typography variant="h6" gutterBottom>
             Log in to your account
@@ -82,7 +82,9 @@ const Login = (props) => {
           </form>
 
           <p>
-            Don't have an account? <Link to="/register">Sign Up</Link>
+            Don't have an account? <br />
+            <br />
+            <Link to="/register">Sign Up</Link>
           </p>
         </div>
       </section>
