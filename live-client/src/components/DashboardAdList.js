@@ -1,11 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { Fragment, useEffect, useState } from "react";
+import axios from "axios";
 // Components
-import LoadingDisplay from './LoadingDisplay';
-import Card from './Card';
-import { Button, Box, ButtonGroup } from '@mui/material';
+import LoadingDisplay from "./LoadingDisplay";
+import Card from "./Card";
+import { Button, Box, ButtonGroup } from "@mui/material";
 // Styling
-import { boardStyle, adAreaStyle, paginationStyle, dashCardStyle } from './css/dashStyle';
+import {
+  boardStyle,
+  adAreaStyle,
+  paginationStyle,
+  dashCardStyle,
+} from "./css/dashStyle";
 
 const DashboardAdList = () => {
   const [ads, setAds] = useState([]);
@@ -45,15 +50,20 @@ const DashboardAdList = () => {
         <Box sx={adAreaStyle}>
           {ads.slice(firstAdIndex, lastAdIndex).map((ad) => {
             return (
-              <div className='ad__container' key={ad._id}>
-                <Card ad={ad} key={ad._id} dashCard={true} cardStyle={dashCardStyle} />
+              <div className="ad__container" key={ad._id}>
+                <Card
+                  ad={ad}
+                  key={ad._id}
+                  dashCard={true}
+                  cardStyle={dashCardStyle}
+                />
               </div>
             );
           })}
         </Box>
         {ads.length !== 0 && (
           <Box sx={paginationStyle}>
-            <ButtonGroup variant='outlined' size='small'>
+            <ButtonGroup variant="outlined" size="small">
               <Button
                 disabled={pageNumber === 1}
                 onClick={(e) => clickPageNumberButton(pageNumber - 1)}

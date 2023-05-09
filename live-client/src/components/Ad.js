@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
-import openSocket from 'socket.io-client';
+import React, { useEffect, useState, Fragment } from "react";
+import { connect } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import openSocket from "socket.io-client";
 // Actions
 import {
   loadAdDetails,
@@ -14,15 +14,22 @@ import {
   clearAdImage,
   setImageLoadingStatus,
   clearAdDetails,
-} from '../actions/ad';
-import { setAlert, clearAlerts } from '../actions/alert';
+} from "../actions/ad";
+import { setAlert, clearAlerts } from "../actions/alert";
 // MUI Components
-import { Paper, Box, Typography, Divider, TextField, Button } from '@mui/material';
+import {
+  Paper,
+  Box,
+  Typography,
+  Divider,
+  TextField,
+  Button,
+} from "@mui/material";
 // Project components
-import Alert from './Alert';
-import Spinner from './Spinner';
-import LoadingDisplay from './LoadingDisplay';
-import imagePlaceholder from '../images/no-image-icon.png';
+import Alert from "./Alert";
+import Spinner from "./Spinner";
+import LoadingDisplay from "./LoadingDisplay";
+import imagePlaceholder from "../images/no-image-icon.png";
 import {
   boxStyle,
   adArea,
@@ -32,8 +39,8 @@ import {
   imageContainer,
   bidContainer,
   bidButtonStyle,
-} from './css/adStyles.js';
-import { secondsToHms } from '../utils/secondsToHms';
+} from "./css/adStyles.js";
+import { secondsToHms } from "../utils/secondsToHms";
 
 const Ad = (props) => {
   const params = useParams();
@@ -79,42 +86,45 @@ const Ad = (props) => {
   // For ad rooms
   useEffect(() => {
     const adSocket = openSocket(process.env.REACT_APP_API_BASE_URL, {
-      path: '/socket/adpage',
+      path: "/socket/adpage",
     });
     // User enters add page
-    adSocket.emit('joinAd', { ad: params.adId.toString() });
+    adSocket.emit("joinAd", { ad: params.adId.toString() });
     // Auction is started
-    adSocket.on('auctionStarted', (res) => {
+    adSocket.on("auctionStarted", (res) => {
       console.log(res);
       props.updateAdDetails(res.data);
       props.clearAlerts();
-      if (res.action === 'started') props.setAlert('Auction started!', 'info');
+      if (res.action === "started") props.setAlert("Auction started!", "info");
     });
     // Auction is ended
-    adSocket.on('auctionEnded', (res) => {
-      if (res.action === 'sold') {
+    adSocket.on("auctionEnded", (res) => {
+      if (res.action === "sold") {
         props.updateAdDetails(res.ad);
         props.clearAlerts();
-        props.setAlert(`Auction ended, item sold to ${res.winner.username}!`, 'info');
+        props.setAlert(
+          `Auction ended, item sold to ${res.winner.username}!`,
+          "info"
+        );
       } else {
         props.updateAdDetails(res.data);
         props.clearAlerts();
-        props.setAlert('Item not sold', 'info');
+        props.setAlert("Item not sold", "info");
       }
     });
     // Timer
-    adSocket.on('timer', (res) => {
+    adSocket.on("timer", (res) => {
       props.updateTimer(res.data);
     });
     // Bid is posted
-    adSocket.on('bidPosted', (res) => {
-      console.log('bidposted');
+    adSocket.on("bidPosted", (res) => {
+      console.log("bidposted");
       props.loadHighestBid(res.data._id);
       props.updateAdDetails(res.data);
     });
 
     return () => {
-      adSocket.emit('leaveAd', { ad: params.adId.toString() });
+      adSocket.emit("leaveAd", { ad: params.adId.toString() });
       adSocket.off();
       props.clearAdDetails();
       props.clearAdImage();
@@ -147,11 +157,11 @@ const Ad = (props) => {
 
   // Check if user is logged
   if (!props.isAuth) {
-    navigate('/login');
+    navigate("/login");
   }
 
   if (props.loading || props.loadingHighestBid) {
-    console.log('loading');
+    console.log("loading");
     return <Spinner />;
   }
 
@@ -168,7 +178,7 @@ const Ad = (props) => {
   const handleStartAuction = (e) => {
     e.preventDefault();
     props.startAuction(props.adDetails._id);
-    props.setAlert('Auction started', 'success');
+    props.setAlert("Auction started", "success");
   };
 
   const getTimeRemaining = () => {
@@ -183,18 +193,18 @@ const Ad = (props) => {
   // Auction status based on the ad-details
   const auctionStatus = () => {
     if (props.adDetails.sold) {
-      return 'Sold';
+      return "Sold";
     } else if (props.adDetails.auctionEnded) {
-      return 'Ended, not-sold';
+      return "Ended, not-sold";
     } else if (!props.adDetails.auctionStarted) {
-      return 'Upcoming';
+      return "Upcoming";
     } else {
-      return 'Ongoing';
+      return "Ongoing";
     }
   };
 
   return (
-    <div className='ad__page'>
+    <div className="ad__page">
       {props.loading ? (
         <LoadingDisplay />
       ) : (
@@ -205,63 +215,75 @@ const Ad = (props) => {
           ) : (
             <Box sx={boxStyle}>
               <Paper sx={paperStyle}>
-                <Typography variant='h4'>{props.adDetails.productName}</Typography>
+                <Typography variant="h4">
+                  {props.adDetails.productName}
+                </Typography>
                 <Box sx={adArea}>
                   <Box sx={imageContainer}>
                     {!props.imageLoading && (
                       <img
-                        src={props.adDetails.image ? props.adImage : imagePlaceholder}
+                        src={
+                          props.adDetails.image
+                            ? props.adImage
+                            : imagePlaceholder
+                        }
                         alt={props.adDetails.productName}
                         style={imageStyle}
                       />
                     )}
                   </Box>
                   <Box sx={descriptionArea}>
-                    <Typography variant='h6'>Description</Typography>
-                    <Typography variant='body2'>{props.adDetails.description}</Typography>
-                    <Divider variant='middle' sx={{ margin: '.5rem' }} />
+                    <Typography variant="h6">Description</Typography>
+                    <Typography variant="body2">
+                      {props.adDetails.description}
+                    </Typography>
+                    <Divider variant="middle" sx={{ margin: ".5rem" }} />
 
-                    <Typography variant='h6'>Info</Typography>
-                    <Typography variant='body1'>
+                    <Typography variant="h6">Info</Typography>
+                    <Typography variant="body1">
                       Posted on: {getUTCDate(props.adDetails.createdAt)}
                     </Typography>
-                    <Typography variant='body1'>
+                    <Typography variant="body1">
                       Seller: {props.adDetails.owner.username}
                     </Typography>
-                    <Typography variant='body1'>
+                    <Typography variant="body1">
                       Base price: {props.adDetails.basePrice.$numberDecimal}
                     </Typography>
-                    <Divider variant='middle' sx={{ margin: '.5rem' }} />
+                    <Divider variant="middle" sx={{ margin: ".5rem" }} />
 
-                    <Typography variant='h6'>Auction</Typography>
-                    <Typography variant='body1'>Status: {auctionStatus()}</Typography>
-                    <Typography variant='body1'>
+                    <Typography variant="h6">Auction</Typography>
+                    <Typography variant="body1">
+                      Status: {auctionStatus()}
+                    </Typography>
+                    <Typography variant="body1">
                       Bids: {props.adDetails.bids.length}
                     </Typography>
-                    <Typography variant='body1'>
+                    <Typography variant="body1">
                       Time remaining: {getTimeRemaining()}
                     </Typography>
-                    <Typography variant='body1'>
-                      Current price: ${props.adDetails.currentPrice.$numberDecimal}
+                    <Typography variant="body1">
+                      Current price: $
+                      {props.adDetails.currentPrice.$numberDecimal}
                     </Typography>
-                    <Typography variant='body1'>
-                      Current bidder: {props.highestBid && props.highestBid.user.username}
+                    <Typography variant="body1">
+                      Current bidder:{" "}
+                      {props.highestBid && props.highestBid.user.username}
                     </Typography>
-                    <Divider variant='middle' sx={{ margin: '.5rem' }} />
+                    <Divider variant="middle" sx={{ margin: ".5rem" }} />
 
                     {!ownerAd && (
                       <Box sx={bidContainer}>
                         <TextField
-                          label='$'
-                          id='bid-price'
-                          size='small'
+                          label="$"
+                          id="bid-price"
+                          size="small"
                           onChange={(e) => {
                             handleBidPriceChange(e);
                           }}
                         />
-                        <Box sx={{ height: 'auto' }}>
+                        <Box sx={{ height: "auto" }}>
                           <Button
-                            variant='contained'
+                            variant="contained"
                             disabled={bidButton}
                             onClick={(e) => handleSubmitBid(e)}
                             sx={bidButtonStyle}
@@ -274,9 +296,9 @@ const Ad = (props) => {
 
                     {ownerAd && (
                       <Box sx={bidContainer}>
-                        <Box sx={{ height: 'auto' }}>
+                        <Box sx={{ height: "auto" }}>
                           <Button
-                            variant='contained'
+                            variant="contained"
                             disabled={!startButton}
                             onClick={(e) => handleStartAuction(e)}
                             sx={bidButtonStyle}

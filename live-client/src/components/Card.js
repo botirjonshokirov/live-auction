@@ -1,20 +1,26 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import Card from '@mui/material/Card';
-import { Link, useNavigate } from 'react-router-dom';
+import * as React from "react";
+import { useState } from "react";
+import { connect } from "react-redux";
+import Card from "@mui/material/Card";
+import { useNavigate } from "react-router-dom";
 // Actions
-import { loadAdDetails, loadAdImage, setImageLoadingStatus } from '../actions/ad';
+import {
+  loadAdDetails,
+  loadAdImage,
+  setImageLoadingStatus,
+} from "../actions/ad";
 // MUI Components
-import { CardActionArea } from '@mui/material';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+import { CardActionArea } from "@mui/material";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
 // Files
-import imagePlaceholder from '../images/no-image-icon.png';
-import { secondsToHmsShort } from '../utils/secondsToHms';
+import imagePlaceholder from "../images/no-image-icon.png";
+import { secondsToHmsShort } from "../utils/secondsToHms";
 
 function MediaCard(props) {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const handleCardClick = (e) => {
     navigate(`/ads/${props.ad._id}`);
@@ -23,44 +29,51 @@ function MediaCard(props) {
   // Auction status based on the ad-details
   const updateAuctionStatus = (ad) => {
     if (ad.sold) {
-      return 'Sold';
+      return "Sold";
     } else if (ad.auctionEnded) {
-      return 'Ended, not-sold';
+      return "Ended, not-sold";
     } else if (!ad.auctionStarted) {
-      return 'Upcoming';
+      return "Upcoming";
     } else {
-      return 'Ongoing';
+      return "Ongoing";
     }
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       onClick={(e) => {
         handleCardClick(e);
       }}
-      style={{ textDecoration: 'none' }}
+      style={{ textDecoration: "none" }}
     >
       <Card style={props.cardStyle}>
         <CardActionArea>
           {!props.dashCard && (
-            <CardMedia
-              component='img'
-              height='180'
-              src={props.ad.image ? props.ad.image : imagePlaceholder}
-              alt='green iguana'
-            />
+            <div
+              className={`image-wrapper${loading ? " loading" : ""}`}
+              onLoad={() => setLoading(false)}
+            >
+              <CardMedia
+                component="img"
+                height="180"
+                src={props.ad.image ? props.ad.image : imagePlaceholder}
+                alt="green iguana"
+              />
+              <div className="progress-bar"></div>
+            </div>
           )}
           <CardContent>
-            <Typography gutterBottom variant='h6' component='div'>
+            <Typography gutterBottom variant="h6" component="div">
               {props.ad.productName}
             </Typography>
-            <Typography variant='body2' color='text.secondary'>
+            <Typography variant="body2" color="text.secondary">
               Price: $ {props.ad.currentPrice.$numberDecimal}
             </Typography>
-            <Typography variant='body2' color='text.secondary'>
+            <Typography variant="body2" color="text.secondary">
               Remaining: {secondsToHmsShort(props.ad.timer)}
             </Typography>
-            <Typography variant='body2' color='text.secondary'>
+            <Typography variant="body2" color="text.secondary">
               Status: {updateAuctionStatus(props.ad)}
             </Typography>
           </CardContent>

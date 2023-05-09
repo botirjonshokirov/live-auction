@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { Fragment, useEffect } from "react";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 // MUI
 import {
   Box,
@@ -10,20 +10,20 @@ import {
   TableRow,
   TableCell,
   TableBody,
-} from '@mui/material';
+} from "@mui/material";
 // Style files
-import { boxStyle, paperStyle } from './css/adStyles';
-import { profileTableStyle, tableCellStyle } from './css/dashStyle';
+import { boxStyle, paperStyle } from "./css/adStyles";
+import { profileTableStyle, tableCellStyle } from "./css/dashStyle";
 // Actions
-import { clearAlerts } from '../actions/alert';
+import { clearAlerts } from "../actions/alert";
 
 // Project files
-import Spinner from './Spinner';
-import DashboardAdList from './DashboardAdList';
-import LoadingDisplay from './LoadingDisplay';
+import Spinner from "./Spinner";
+import DashboardAdList from "./DashboardAdList";
+import LoadingDisplay from "./LoadingDisplay";
 // Actions
-import { getUserPurchasedAds } from '../actions/ad';
-import DashPurchasedList from './DashPurchasedList';
+import { getUserPurchasedAds } from "../actions/ad";
+import DashPurchasedList from "./DashPurchasedList";
 
 const Dashboard = (props) => {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Dashboard = (props) => {
 
   // Check if user is logged
   if (!props.isAuth) {
-    navigate('/login');
+    navigate("/login");
   }
 
   return props.loading ? (
@@ -51,39 +51,42 @@ const Dashboard = (props) => {
     <Fragment>
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
-          <Typography variant='h5'>My Profile</Typography>
+          <Typography variant="h5">My Profile</Typography>
           <Box sx={profileTableStyle}>
-            <Table sx={{ width: '60%', minWidth: '200px' }} aria-label='simple table'>
+            <Table
+              sx={{ width: "60%", minWidth: "200px" }}
+              aria-label="simple table"
+            >
               <TableBody>
-                <TableRow key='Username'>
-                  <TableCell align='right' sx={tableCellStyle}>
+                <TableRow key="Username">
+                  <TableCell align="right" sx={tableCellStyle}>
                     User name
                   </TableCell>
-                  <TableCell align='left' sx={tableCellStyle}>
+                  <TableCell align="left" sx={tableCellStyle}>
                     {props.user.username}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell align='right' sx={tableCellStyle}>
+                  <TableCell align="right" sx={tableCellStyle}>
                     Email
                   </TableCell>
-                  <TableCell align='left' sx={tableCellStyle}>
+                  <TableCell align="left" sx={tableCellStyle}>
                     {props.user.email}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell align='right' sx={tableCellStyle}>
+                  <TableCell align="right" sx={tableCellStyle}>
                     Phone
                   </TableCell>
-                  <TableCell align='left' sx={tableCellStyle}>
+                  <TableCell align="left" sx={tableCellStyle}>
                     {props.user.phone}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell align='right' sx={tableCellStyle}>
+                  <TableCell align="right" sx={tableCellStyle}>
                     Address
                   </TableCell>
-                  <TableCell align='left' sx={tableCellStyle}>
+                  <TableCell align="left" sx={tableCellStyle}>
                     {props.user.address}
                   </TableCell>
                 </TableRow>
@@ -95,14 +98,14 @@ const Dashboard = (props) => {
 
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
-          <Typography variant='h5'>My ads</Typography>
+          <Typography variant="h5">My ads</Typography>
           <DashboardAdList />
         </Paper>
       </Box>
 
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
-          <Typography variant='h5'>My purchases</Typography>
+          <Typography variant="h5">My purchases</Typography>
           {props.purchasedLoading ? (
             <LoadingDisplay />
           ) : (
@@ -122,4 +125,6 @@ const mapStateToProps = (state) => ({
   purchasedLoading: state.ad.purchasedLoading,
 });
 
-export default connect(mapStateToProps, { getUserPurchasedAds, clearAlerts })(Dashboard);
+export default connect(mapStateToProps, { getUserPurchasedAds, clearAlerts })(
+  Dashboard
+);

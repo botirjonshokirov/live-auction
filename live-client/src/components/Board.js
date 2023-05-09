@@ -1,27 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import openSocket from 'socket.io-client';
+import React, { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
+
+import { connect } from "react-redux";
+import { Navigate } from "react-router-dom";
+import openSocket from "socket.io-client";
 // MUI
-import { Button, Box, ButtonGroup } from '@mui/material';
+import { Button, Box, ButtonGroup } from "@mui/material";
 // Styling
-import './css/board.css';
+import "./css/board.css";
 import {
   adAreaStyle,
   boardCardStyle,
   boardStyle,
   paginationStyle,
-} from './css/boardStyle';
+} from "./css/boardStyle";
 // Actions
-import { loadAds, adPostedByOther, updateAdInList } from '../actions/ad';
-import { setAlert, clearAlerts } from '../actions/alert';
+import { loadAds, adPostedByOther, updateAdInList } from "../actions/ad";
+import { setAlert, clearAlerts } from "../actions/alert";
 // Components
-import Spinner from './Spinner';
-import Card from './Card';
+import Spinner from "./Spinner";
+import Card from "./Card";
 
 const Board = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [adPerPage] = useState(6);
+  const [adPerPage, setAdPerPage] = useState(8);
+
+  useEffect(() => {
+    const updateAdPerPage = () => {
+      const width = window.innerWidth;
+      if (width > 1280) {
+        setAdPerPage(8);
+      } else if (width > 960) {
+        setAdPerPage(6);
+      } else {
+        setAdPerPage(4);
+      }
+    };
+
+    updateAdPerPage();
+    window.addEventListener("resize", updateAdPerPage);
+    return () => window.removeEventListener("resize", updateAdPerPage);
+  }, []);
 
   useEffect(() => {
     if (props.passedUser) {
@@ -30,7 +49,7 @@ const Board = (props) => {
       props.loadAds();
       const socket = openSocket(process.env.REACT_APP_API_BASE_URL);
       // when new ad is added
-      socket.on('addAd', (data) => {
+      socket.on("addAd", (data) => {
         console.log(data);
         if (
           props.user &&
@@ -38,29 +57,29 @@ const Board = (props) => {
           data.ad.owner.toString() !== props.user._id.toString()
         ) {
           props.clearAlerts();
-          props.setAlert('New ads available', 'info', 60000);
+          props.setAlert("New ads available", "info", 60000);
         }
       });
       // when auction starts/ends
-      socket.on('auctionStarted', (res) => {
+      socket.on("auctionStarted", (res) => {
         props.updateAdInList(res.data);
       });
-      socket.on('auctionEnded', (res) => {
+      socket.on("auctionEnded", (res) => {
         props.updateAdInList(res.data);
       });
 
       // disconnect socket when page left
       return () => {
-        socket.emit('leaveHome');
+        socket.emit("leaveHome");
         socket.off();
         props.clearAlerts();
       };
     }
-  }, []);
+  }, [props]);
 
   // Check if user is logged
   if (!props.isAuth) {
-    return <Navigate to='/login' />;
+    return <Navigate to="/login" />;
   }
 
   // Pagination
@@ -82,16 +101,23 @@ const Board = (props) => {
   ) : (
     <Box sx={boardStyle}>
       <Box sx={adAreaStyle}>
-        {props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => {
-          return ad.auctionEnded ? null : (
-            <div className='product__container' key={ad._id}>
-              <Card ad={ad} key={ad._id} dashCard={false} cardStyle={boardCardStyle} />
-            </div>
-          );
-        })}
+        <Grid container spacing={2} justifyContent="center">
+          {props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => {
+            return ad.auctionEnded ? null : (
+              <Grid item xs={12} sm={6} md={5} lg={3} key={ad._id}>
+                <Card
+                  ad={ad}
+                  key={ad._id}
+                  dashCard={false}
+                  cardStyle={boardCardStyle}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
       </Box>
       <Box sx={paginationStyle}>
-        <ButtonGroup variant='outlined' size='small'>
+        <ButtonGroup variant="outlined" size="small">
           <Button
             disabled={pageNumber === 1}
             onClick={(e) => clickPageNumberButton(pageNumber - 1)}
