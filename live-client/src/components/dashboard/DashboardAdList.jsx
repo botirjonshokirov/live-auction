@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 // Components
-import LoadingDisplay from "./LoadingDisplay";
-import Card from "./Card";
+import LoadingDisplay from "../utils/LoadingDisplay";
+import Card from "../item/Card";
 import { Button, Box, ButtonGroup } from "@mui/material";
 // Styling
 import {
@@ -10,7 +10,7 @@ import {
   adAreaStyle,
   paginationStyle,
   dashCardStyle,
-} from "./css/dashStyle";
+} from "../css/dashStyle";
 
 const DashboardAdList = () => {
   const [ads, setAds] = useState([]);

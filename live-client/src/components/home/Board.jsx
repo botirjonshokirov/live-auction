@@ -7,19 +7,19 @@ import openSocket from "socket.io-client";
 // MUI
 import { Button, Box, ButtonGroup } from "@mui/material";
 // Styling
-import "./css/board.css";
+import "../css/board.css";
 import {
   adAreaStyle,
   boardCardStyle,
   boardStyle,
   paginationStyle,
-} from "./css/boardStyle";
+} from "../css/boardStyle";
 // Actions
-import { loadAds, adPostedByOther, updateAdInList } from "../actions/ad";
-import { setAlert, clearAlerts } from "../actions/alert";
+import { loadAds, adPostedByOther, updateAdInList } from "../../actions/ad";
+import { setAlert, clearAlerts } from "../../actions/alert";
 // Components
-import Spinner from "./Spinner";
-import Card from "./Card";
+import Spinner from "../utils/Spinner";
+import Card from "../item/Card";
 
 const Board = (props) => {
   const [pageNumber, setPageNumber] = useState(1);

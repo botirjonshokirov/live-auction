@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   REGISTER_SUCCESS,
   USER_LOADED,
@@ -6,9 +6,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-} from './types';
-import { setAlert } from './alert';
-import setAuthToken from '../utils/setAuthToken';
+} from "./types";
+import { setAlert } from "./alert";
+import setAuthToken from "../utils/setAuthToken";
 
 // Load user
 export const loadUser = () => async (dispath) => {
@@ -33,11 +33,17 @@ export const register =
   async (dispatch) => {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     };
 
-    const body = JSON.stringify({ username: name, email, password, address, phone });
+    const body = JSON.stringify({
+      username: name,
+      email,
+      password,
+      address,
+      phone,
+    });
 
     try {
       const res = await axios.post(
@@ -56,11 +62,11 @@ export const register =
     } catch (err) {
       // Get errors array sent by api
       if (!err.response) {
-        dispatch(setAlert('Server error', 'error'));
+        dispatch(setAlert("Server error", "error"));
       } else {
         const errors = err.response.data.errors;
         if (errors) {
-          errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+          errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
         }
       }
 
@@ -74,7 +80,7 @@ export const register =
 export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 
@@ -98,11 +104,11 @@ export const login = (email, password) => async (dispatch) => {
   } catch (err) {
     // Get errors array sent by api
     if (!err.response) {
-      dispatch(setAlert('Server error', 'error'));
+      dispatch(setAlert("Server error", "error"));
     } else {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+        errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
       }
     }
 
@@ -116,11 +122,11 @@ export const login = (email, password) => async (dispatch) => {
 export const skipLogin = () => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 
-  const body = { email: 'test@test.com', password: '123456' };
+  const body = { email: "test@test.com", password: "123456" };
 
   try {
     const res = await axios.post(
@@ -139,11 +145,11 @@ export const skipLogin = () => async (dispatch) => {
   } catch (err) {
     // Get errors array sent by api
     if (!err.response) {
-      dispatch(setAlert('Server error', 'error'));
+      dispatch(setAlert("Server error", "error"));
     } else {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+        errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
       }
     }
 

@@ -14,9 +14,9 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 // Files
-import "./css/nav.css";
+import "../css/nav.css";
 // Actions
-import { logout } from "../actions/auth";
+import { logout } from "../../actions/auth";
 
 const Nav = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);

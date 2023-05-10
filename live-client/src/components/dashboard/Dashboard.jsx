@@ -12,17 +12,17 @@ import {
   TableBody,
 } from "@mui/material";
 // Style files
-import { boxStyle, paperStyle } from "./css/adStyles";
-import { profileTableStyle, tableCellStyle } from "./css/dashStyle";
+import { boxStyle, paperStyle } from "../css/adStyles";
+import { profileTableStyle, tableCellStyle } from "../css/dashStyle";
 // Actions
-import { clearAlerts } from "../actions/alert";
+import { clearAlerts } from "../../actions/alert";
 
 // Project files
-import Spinner from "./Spinner";
+import Spinner from "../utils/Spinner";
 import DashboardAdList from "./DashboardAdList";
-import LoadingDisplay from "./LoadingDisplay";
+import LoadingDisplay from "../utils/LoadingDisplay";
 // Actions
-import { getUserPurchasedAds } from "../actions/ad";
+import { getUserPurchasedAds } from "../../actions/ad";
 import DashPurchasedList from "./DashPurchasedList";
 
 const Dashboard = (props) => {
@@ -32,13 +32,13 @@ const Dashboard = (props) => {
     if (props.isAuth) {
       props.getUserPurchasedAds();
     }
-  }, [props.loading]);
+  }, [props, props.loading]);
 
   useEffect(() => {
     return () => {
       props.clearAlerts();
     };
-  }, []);
+  }, [props]);
 
   // Check if user is logged
   if (!props.isAuth) {
