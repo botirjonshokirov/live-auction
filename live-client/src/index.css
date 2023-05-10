@@ -12,6 +12,14 @@ body {
   background-color: #091f2c;
   background-size: cover;
   padding: 15px 100px;
+}
+body.light-mode {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode {
+  background-color: #091f2c;
   color: #fff;
 }
 

@@ -10,13 +10,18 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Avatar,
+  Grid,
 } from "@mui/material";
 // Style files
 import { boxStyle, paperStyle } from "../css/adStyles";
 import { profileTableStyle, tableCellStyle } from "../css/dashStyle";
 // Actions
 import { clearAlerts } from "../../actions/alert";
-
+// Icons
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 // Project files
 import Spinner from "../utils/Spinner";
 import DashboardAdList from "./DashboardAdList";
@@ -24,6 +29,8 @@ import LoadingDisplay from "../utils/LoadingDisplay";
 // Actions
 import { getUserPurchasedAds } from "../../actions/ad";
 import DashPurchasedList from "./DashPurchasedList";
+
+import "./Dashboard.css";
 
 const Dashboard = (props) => {
   const navigate = useNavigate();
@@ -51,7 +58,24 @@ const Dashboard = (props) => {
     <Fragment>
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
-          <Typography variant="h5">My Profile</Typography>
+          <Grid container alignItems="center">
+            <Grid item xs={2}>
+              <div className="avatar-container">
+                <Avatar
+                  className="avatar"
+                  style={{ width: "100px", height: "100px" }}
+                >
+                  {props.user.username.charAt(0).toUpperCase()}
+                </Avatar>
+                <button className="add-photo-button">Add Photo</button>
+              </div>
+            </Grid>
+            <Grid item xs={10}>
+              <Typography variant="h5" component="div">
+                <AccountCircleIcon fontSize="inherit" /> My Profile
+              </Typography>
+            </Grid>
+          </Grid>
           <Box sx={profileTableStyle}>
             <Table
               sx={{ width: "60%", minWidth: "200px" }}
@@ -98,14 +122,18 @@ const Dashboard = (props) => {
 
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
-          <Typography variant="h5">My ads</Typography>
+          <Typography variant="h5" component="div">
+            <StorefrontIcon fontSize="inherit" /> My ads
+          </Typography>
           <DashboardAdList />
         </Paper>
       </Box>
 
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
-          <Typography variant="h5">My purchases</Typography>
+          <Typography variant="h5" component="div">
+            <ShoppingCartIcon fontSize="inherit" /> My purchases
+          </Typography>
           {props.purchasedLoading ? (
             <LoadingDisplay />
           ) : (

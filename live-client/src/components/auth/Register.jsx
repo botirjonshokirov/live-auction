@@ -13,7 +13,6 @@ import { register } from "../../actions/auth";
 // Files
 import "../css/auth.css";
 import Spinner from "../utils/Spinner";
-import logo from "../../images/auctionslogo3.png";
 import Alert from "../utils/Alert";
 
 const Register = (props) => {
@@ -57,7 +56,7 @@ const Register = (props) => {
       <section className="auth__container">
         <div className="auth">
           <div className="auth__image-container">
-            <img className="app__icon" src={logo} alt="navicon" />
+            <h1>Auction AEH</h1>
           </div>
           <h1 className="auth__title">Sign Up</h1>
           <p className="auth__subtitle">

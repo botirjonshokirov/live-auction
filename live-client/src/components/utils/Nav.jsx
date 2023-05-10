@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
+import Brightness3Icon from "@mui/icons-material/Brightness3"; // Moon icon
+import WbSunnyIcon from "@mui/icons-material/WbSunny"; // Sun icon
+
 // Material UI Components
 import {
   Button,
@@ -11,6 +14,7 @@ import {
   List,
   ListItem,
   Hidden,
+  Switch,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 // Files
@@ -20,10 +24,20 @@ import { logout } from "../../actions/auth";
 
 const Nav = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
     setDrawerOpen(open);
   };
+  // new handler for dark mode switch
+  const handleThemeChange = () => {
+    setDarkMode(!darkMode);
+  };
+
+  useEffect(() => {
+    // Update the body class based on the dark mode state
+    document.body.className = darkMode ? "dark-mode" : "light-mode";
+  }, [darkMode]);
 
   const mobileMenu = (
     <Box
@@ -91,6 +105,19 @@ const Nav = (props) => {
 
       <div className="nav__group2">
         <div className="nav__account">
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+            p={2}
+          >
+            <WbSunnyIcon />
+            <Box mx={1}>
+              <Switch checked={darkMode} onChange={handleThemeChange} />
+            </Box>
+            <Brightness3Icon />
+          </Box>
+
           {props.isAuth ? (
             <Hidden smDown>
               <Link
