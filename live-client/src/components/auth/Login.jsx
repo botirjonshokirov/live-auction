@@ -7,7 +7,7 @@ import { login, skipLogin } from "../../actions/auth";
 import { setAlert, removeAlert } from "../../actions/alert";
 import Spinner from "../utils/Spinner";
 import Alert from "../utils/Alert";
-import "../css/Login.css";
+import "./Login.css";
 
 const Login = (props) => {
   const [formData, setForm] = useState({
