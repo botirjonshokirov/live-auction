@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import "./css/alert.css";
+import "../css/alert.css";
 // Actions
-import { removeAlert } from "../actions/alert";
+import { removeAlert } from "../../actions/alert";
 // MUI
 import { Alert, Box, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";

@@ -15,18 +15,18 @@ import {
   Input,
 } from "@mui/material";
 // Files
-import Alert from "./Alert";
+import Alert from "../utils/Alert";
 import {
   boxStyle,
   adFormArea,
   formComponent,
   formTextField,
   formSubmitButtonContainer,
-} from "./css/adStyles";
-import LoadingDisplay from "./LoadingDisplay";
+} from "../css/adStyles";
+import LoadingDisplay from "../utils/LoadingDisplay";
 // Actions
-import { postAd } from "../actions/ad";
-import { setAlert, clearAlerts } from "../actions/alert";
+import { postAd } from "../../actions/ad";
+import { setAlert, clearAlerts } from "../../actions/alert";
 
 const AdForm = (props) => {
   const [form, setForm] = useState({
@@ -38,7 +38,7 @@ const AdForm = (props) => {
     image: "",
   });
   const [file, setFile] = useState("");
-  const [fileName, setFileName] = useState("Choose your image file...");
+  const [, setFileName] = useState("Choose your image file...");
   const [fileValid, setFileValid] = useState(true);
   const [uploading, setUploading] = useState(false);
   let navigate = useNavigate();
@@ -47,7 +47,7 @@ const AdForm = (props) => {
     return () => {
       props.clearAlerts();
     };
-  }, []);
+  }, [props]);
 
   const handleFormChange = (e) => {
     e.preventDefault();

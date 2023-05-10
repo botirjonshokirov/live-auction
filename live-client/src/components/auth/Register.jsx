@@ -7,14 +7,14 @@ import { Navigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 // Actions
-import { setAlert } from "../actions/alert";
-import { removeAlert } from "../actions/alert";
-import { register } from "../actions/auth";
+import { setAlert } from "../../actions/alert";
+import { removeAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
 // Files
-import "./css/auth.css";
-import Spinner from "./Spinner";
-import logo from "../images/auctionslogo3.png";
-import Alert from "./Alert";
+import "../css/auth.css";
+import Spinner from "../utils/Spinner";
+import logo from "../../images/auctionslogo3.png";
+import Alert from "../utils/Alert";
 
 const Register = (props) => {
   const [formData, setForm] = useState({

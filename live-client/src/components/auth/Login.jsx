@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { TextField, Button, Typography } from "@mui/material";
-import { login, skipLogin } from "../actions/auth";
-import { setAlert, removeAlert } from "../actions/alert";
-import Spinner from "./Spinner";
-import Alert from "./Alert";
-import "./css/Login.css";
+import { login, skipLogin } from "../../actions/auth";
+import { setAlert, removeAlert } from "../../actions/alert";
+import Spinner from "../utils/Spinner";
+import Alert from "../utils/Alert";
+import "../css/Login.css";
 
 const Login = (props) => {
   const [formData, setForm] = useState({

@@ -8,15 +8,15 @@ import {
   loadAdDetails,
   loadAdImage,
   setImageLoadingStatus,
-} from "../actions/ad";
+} from "../../actions/ad";
 // MUI Components
 import { CardActionArea } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 // Files
-import imagePlaceholder from "../images/no-image-icon.png";
-import { secondsToHmsShort } from "../utils/secondsToHms";
+import imagePlaceholder from "../../images/no-image-icon.png";
+import { secondsToHmsShort } from "../../utils/secondsToHms";
 
 function MediaCard(props) {
   const navigate = useNavigate();

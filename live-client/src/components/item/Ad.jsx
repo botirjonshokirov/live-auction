@@ -14,8 +14,8 @@ import {
   clearAdImage,
   setImageLoadingStatus,
   clearAdDetails,
-} from "../actions/ad";
-import { setAlert, clearAlerts } from "../actions/alert";
+} from "../../actions/ad";
+import { setAlert, clearAlerts } from "../../actions/alert";
 // MUI Components
 import {
   Paper,
@@ -26,10 +26,10 @@ import {
   Button,
 } from "@mui/material";
 // Project components
-import Alert from "./Alert";
-import Spinner from "./Spinner";
-import LoadingDisplay from "./LoadingDisplay";
-import imagePlaceholder from "../images/no-image-icon.png";
+import Alert from "../utils/Alert";
+import Spinner from "../utils/Spinner";
+import LoadingDisplay from "../utils/LoadingDisplay";
+import imagePlaceholder from "../../images/no-image-icon.png";
 import {
   boxStyle,
   adArea,
@@ -39,8 +39,8 @@ import {
   imageContainer,
   bidContainer,
   bidButtonStyle,
-} from "./css/adStyles.js";
-import { secondsToHms } from "../utils/secondsToHms";
+} from "../css/adStyles.js";
+import { secondsToHms } from "../../utils/secondsToHms";
 
 const Ad = (props) => {
   const params = useParams();
@@ -51,6 +51,7 @@ const Ad = (props) => {
   const navigate = useNavigate();
 
   // Bid button status
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateBidButtonStatus = (updatedPrice) => {
     if (
       updatedPrice > Number(props.adDetails.currentPrice.$numberDecimal) &&
@@ -67,21 +68,21 @@ const Ad = (props) => {
     props.clearAlerts();
     props.setImageLoadingStatus();
     props.loadAdDetails(params.adId);
-  }, [params.adId]);
+  }, [params.adId, props]);
 
   useEffect(() => {
     if (props.adDetails.image) {
       props.loadAdImage(props.adDetails.image);
     }
-  }, [props.adDetails.image]);
+  }, [props, props.adDetails.image]);
 
   useEffect(() => {
     props.loadHighestBid(params.adId);
-  }, [params.adId]);
+  }, [params.adId, props]);
 
   useEffect(() => {
     updateBidButtonStatus(bidPrice);
-  }, [bidPrice, props.adDetails.auctionEnded]);
+  }, [bidPrice, props.adDetails.auctionEnded, updateBidButtonStatus]);
 
   // For ad rooms
   useEffect(() => {
@@ -130,7 +131,7 @@ const Ad = (props) => {
       props.clearAdImage();
     };
     // setAdSocketState(adSocket);
-  }, [params.adId]);
+  }, [params.adId, props]);
 
   // Check if current user is the owner of ad
   useEffect(() => {

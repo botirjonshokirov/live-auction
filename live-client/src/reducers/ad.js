@@ -14,7 +14,7 @@ import {
   CLEAR_AD_IMAGE,
   IMAGE_LOADING,
   CLEAR_AD_DETAILS,
-} from '../actions/types';
+} from "../actions/types";
 
 const initialState = {
   ads: [],
@@ -22,7 +22,7 @@ const initialState = {
   imageLoading: true,
   adDetails: { currentPrice: { $numberDecimal: 0 } },
   loadingHighestBid: true,
-  highestBid: { user: { username: '' } },
+  highestBid: { user: { username: "" } },
   purchasedLoading: true,
   purchased: [],
   adImage: null,

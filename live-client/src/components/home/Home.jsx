@@ -2,10 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 // Styling
-import "./css/home.css";
+import "../css/home.css";
 // Components
 import Board from "./Board";
-import Alert from "./Alert";
+import Alert from "../utils/Alert";
 
 const Home = (props) => {
   // Check if user is logged

@@ -1,4 +1,4 @@
-import { SET_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from '../actions/types';
+import { SET_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from "../actions/types";
 
 const initialState = []; // [ { msg: '', type: '', id: '' } ]
 
