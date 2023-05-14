@@ -9,6 +9,7 @@ import Ad from "./components/item/Ad.jsx";
 import AdForm from "./components/item/AdForm.jsx";
 import Nav from "./components/utils/Nav.jsx";
 import Dashboard from "./components/dashboard/Dashboard.jsx";
+import Admin from "./components/admin-panel/Admin.jsx";
 // Actions
 import { loadUser } from "./actions/auth";
 // Redux
@@ -32,6 +33,7 @@ function App() {
           <Route path="/ads/:adId" element={<Ad />} />
           <Route path="/postad" element={<AdForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </Provider>

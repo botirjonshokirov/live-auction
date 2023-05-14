@@ -20,7 +20,6 @@ import { secondsToHmsShort } from "../../utils/secondsToHms";
 
 function MediaCard(props) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
 
   const handleCardClick = (e) => {
     navigate(`/ads/${props.ad._id}`);
@@ -40,7 +39,6 @@ function MediaCard(props) {
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       onClick={(e) => {
         handleCardClick(e);
@@ -50,18 +48,12 @@ function MediaCard(props) {
       <Card style={props.cardStyle}>
         <CardActionArea>
           {!props.dashCard && (
-            <div
-              className={`image-wrapper${loading ? " loading" : ""}`}
-              onLoad={() => setLoading(false)}
-            >
-              <CardMedia
-                component="img"
-                height="180"
-                src={props.ad.image ? props.ad.image : imagePlaceholder}
-                alt="green iguana"
-              />
-              <div className="progress-bar"></div>
-            </div>
+            <CardMedia
+              component="img"
+              height="180"
+              src={props.ad.image ? props.ad.image : imagePlaceholder}
+              alt="green iguana"
+            />
           )}
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
