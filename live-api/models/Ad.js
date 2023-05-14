@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const types = mongoose.Types;
 
 const adSchema = new mongoose.Schema(
@@ -49,21 +49,21 @@ const adSchema = new mongoose.Schema(
     },
     owner: {
       type: types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     purchasedBy: {
       type: types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     currentBidder: {
       type: types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     bids: [
       {
         user: {
           type: types.ObjectId,
-          ref: 'user',
+          ref: "user",
           required: true,
         },
         amount: {
@@ -78,10 +78,10 @@ const adSchema = new mongoose.Schema(
     ],
     room: {
       type: types.ObjectId,
-      ref: 'room',
+      ref: "room",
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('ad', adSchema);
+module.exports = mongoose.model("ad", adSchema);

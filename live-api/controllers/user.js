@@ -1,8 +1,8 @@
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const { validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const User = require('../models/User');
+const User = require("../models/User");
 
 exports.registerUser = async (req, res, next) => {
   try {
@@ -17,7 +17,7 @@ exports.registerUser = async (req, res, next) => {
     const { username, email, password, phone, address } = req.body;
     let user = await User.findOne({ email: email });
     if (user) {
-      return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
+      return res.status(400).json({ errors: [{ msg: "User already exists" }] });
     }
 
     // Encrypt password
@@ -42,15 +42,20 @@ exports.registerUser = async (req, res, next) => {
         username,
       },
     };
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-      if (err) {
-        throw err;
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: 3600 },
+      (err, token) => {
+        if (err) {
+          throw err;
+        }
+        res.status(200).json({ token });
       }
-      res.status(200).json({ token });
-    });
+    );
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: 'User already exists' }] });
+    res.status(500).json({ errors: [{ msg: "User already exists" }] });
   }
 };
 
@@ -60,12 +65,12 @@ exports.getUserById = async (req, res) => {
     const user = await User.findById(id, { password: 0 });
 
     if (!user) {
-      return res.status(404).json({ msg: 'User not found' });
+      return res.status(404).json({ msg: "User not found" });
     }
     res.status(200).json(user);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: 'User already exists' }] });
+    res.status(500).json({ errors: [{ msg: "User already exists" }] });
   }
 };
 
@@ -73,11 +78,11 @@ exports.purchasedProducts = async (req, res) => {
   const { user } = req;
   try {
     const fetchedUser = await User.findById(user.id);
-    await fetchedUser.populate('purchasedProducts');
+    await fetchedUser.populate("purchasedProducts");
     res.status(200).json(fetchedUser.purchasedProducts);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
 
@@ -85,10 +90,24 @@ exports.postedProducts = async (req, res) => {
   const { user } = req;
   try {
     const fetchedUser = await User.findById(user.id);
-    await fetchedUser.populate('postedAds');
+    await fetchedUser.populate("postedAds");
     res.status(200).json(fetchedUser.postedAds);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
+  }
+};
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, { password: 0 });
+
+    if (!users) {
+      return res.status(404).json({ msg: "No users found" });
+    }
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
