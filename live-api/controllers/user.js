@@ -29,6 +29,7 @@ exports.registerUser = async (req, res, next) => {
       password: hashedPassword,
       phone,
       address,
+      balance: 10000,
     });
 
     // Save user

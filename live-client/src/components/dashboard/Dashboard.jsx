@@ -114,6 +114,14 @@ const Dashboard = (props) => {
                     {props.user.address}
                   </TableCell>
                 </TableRow>
+                <TableRow>
+                  <TableCell align="right" sx={tableCellStyle}>
+                    Balance
+                  </TableCell>
+                  <TableCell align="left" sx={tableCellStyle}>
+                    {props.user.balance}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </Box>

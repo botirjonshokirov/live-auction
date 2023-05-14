@@ -62,8 +62,6 @@ const ExportData = () => {
       "Product Name": item.productName,
       "Base Price": item.basePrice.$numberDecimal,
       "Current Price": item.currentPrice.$numberDecimal,
-      "Sold At": item.soldAt ? item.soldAt : "Not Started",
-      Category: item.category,
       Sold: item.sold ? "Yes" : "No",
       Owner: owners[item.owner],
       "Purchased By": item.purchasedBy,
@@ -96,8 +94,6 @@ const ExportData = () => {
               <TableCell>Product Name</TableCell>
               <TableCell align="right">Base Price</TableCell>
               <TableCell align="right">Current Price</TableCell>
-              <TableCell align="right">Sold At</TableCell>
-              <TableCell align="right">Category</TableCell>
               <TableCell align="right">Sold</TableCell>
               <TableCell align="right">Owner</TableCell>
               <TableCell align="right">Purchased By</TableCell>
@@ -120,10 +116,6 @@ const ExportData = () => {
                 <TableCell align="right">
                   {item.currentPrice.$numberDecimal}
                 </TableCell>
-                <TableCell align="right">
-                  {item.soldAt ? item.soldAt : "Not Started"}
-                </TableCell>
-                <TableCell align="right">{item.category}</TableCell>
                 <TableCell align="right">{item.sold ? "Yes" : "No"}</TableCell>
                 <TableCell align="right">{owners[item.owner]}</TableCell>
                 <TableCell align="right">{item.purchasedBy}</TableCell>

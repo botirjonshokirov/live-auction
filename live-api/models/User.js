@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  balance: {
+    type: Number,
+    required: true,
+    default: 10000,
+  },
   purchasedProducts: [
     {
       type: mongoose.Types.ObjectId,
