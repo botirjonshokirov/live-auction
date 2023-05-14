@@ -1,8 +1,8 @@
-const { validationResult } = require('express-validator');
-const Ad = require('../models/Ad');
-const Room = require('../models/Room');
-const User = require('../models/User');
-const io = require('../socket');
+const { validationResult } = require("express-validator");
+const Ad = require("../models/Ad");
+const Room = require("../models/Room");
+const User = require("../models/User");
+const io = require("../socket");
 
 // @route   POST /ad
 // @desc    Post a new ad
@@ -14,10 +14,11 @@ exports.addAd = async (req, res, next) => {
     });
   }
 
-  let { productName, basePrice, duration, image, category, description } = req.body;
+  let { productName, basePrice, duration, image, category, description } =
+    req.body;
   if (duration === null || duration === 0) duration = 300;
   if (duration > 10800) duration = 3600;
-  image = image === '' ? '' : `${process.env.SERVER_BASE_URL}${image}`;
+  image = image === "" ? "" : `${process.env.SERVER_BASE_URL}${image}`;
   const timer = duration;
 
   try {
@@ -44,12 +45,12 @@ exports.addAd = async (req, res, next) => {
     user.postedAds.push(ad._id);
     await user.save();
 
-    io.getIo().emit('addAd', { action: 'add', ad: ad });
+    io.getIo().emit("addAd", { action: "add", ad: ad });
 
     res.status(200).json({ ad, room });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
 
@@ -68,7 +69,7 @@ exports.retrieveAds = async (req, res, next) => {
   try {
     if (user) {
       adList = await Ad.find({ owner: user }).sort({ createdAt: -1 });
-    } else if (option === 'notexpired') {
+    } else if (option === "notexpired") {
       adList = await Ad.find({ auctionEnded: false }).sort({
         createdAt: -1,
       });
@@ -78,7 +79,7 @@ exports.retrieveAds = async (req, res, next) => {
     res.status(200).json(adList);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
 
@@ -94,12 +95,12 @@ exports.findAd = async (req, res, next) => {
 
   const adId = req.params.id; // id of type ObjectId (61a18153f926fdc2dd16d78b)
   try {
-    const ad = await Ad.findById(adId).populate('owner', { password: 0 });
-    if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
+    const ad = await Ad.findById(adId).populate("owner", { password: 0 });
+    if (!ad) return res.status(404).json({ errors: [{ msg: "Ad not found" }] });
     res.status(200).json(ad);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
 
@@ -117,11 +118,11 @@ exports.updateAd = async (req, res, next) => {
   try {
     // Check for authorization
     let ad = await Ad.findById(adId);
-    if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
+    if (!ad) return res.status(404).json({ errors: [{ msg: "Ad not found" }] });
     if (ad.owner != req.user.id)
       return res
         .status(401)
-        .json({ errors: [{ msg: 'Unauthorized to delete this ad' }] });
+        .json({ errors: [{ msg: "Unauthorized to delete this ad" }] });
     // Update all fields sent in body
     if (req.body.basePrice) {
       req.body.currentPrice = req.body.basePrice;
@@ -133,7 +134,7 @@ exports.updateAd = async (req, res, next) => {
     res.status(200).json(updatedAd);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
 
@@ -143,19 +144,19 @@ exports.deleteAd = async (req, res, next) => {
   const adId = req.params.id;
   try {
     let ad = await Ad.findById(adId);
-    if (!ad) return res.status(404).json({ errors: [{ msg: 'Ad not found' }] });
+    if (!ad) return res.status(404).json({ errors: [{ msg: "Ad not found" }] });
     if (ad.owner != req.user.id)
       return res
         .status(401)
-        .json({ errors: [{ msg: 'Unauthorized to delete this ad' }] });
+        .json({ errors: [{ msg: "Unauthorized to delete this ad" }] });
     if (ad.auctionStarted || ad.auctionEnded)
       return res
         .status(404)
-        .json({ errors: [{ msg: 'Cannot delete, auction started/ended' }] });
+        .json({ errors: [{ msg: "Cannot delete, auction started/ended" }] });
     await Ad.deleteOne(ad);
-    res.status(200).json({ msg: 'Deleted' });
+    res.status(200).json({ msg: "Deleted" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
