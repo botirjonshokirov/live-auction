@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -24,21 +24,21 @@ const userSchema = new mongoose.Schema({
   purchasedProducts: [
     {
       type: mongoose.Types.ObjectId,
-      ref: 'ad',
+      ref: "ad",
     },
   ],
   postedAds: [
     {
       type: mongoose.Types.ObjectId,
-      ref: 'ad',
+      ref: "ad",
     },
   ],
   bids: [
     {
       type: mongoose.Types.ObjectId,
-      ref: 'ad',
+      ref: "ad",
     },
   ],
 });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model("user", userSchema);
