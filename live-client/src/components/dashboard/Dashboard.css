@@ -7,17 +7,3 @@
 .avatar {
   margin-bottom: 1rem;
 }
-
-.add-photo-button {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease-out;
-}
-
-.add-photo-button:hover {
-  background-color: #388e3c;
-}

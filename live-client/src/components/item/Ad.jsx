@@ -27,8 +27,7 @@ import {
 } from "@mui/material";
 // Project components
 import Alert from "../utils/Alert";
-import Spinner from "../utils/Spinner";
-import LoadingDisplay from "../utils/LoadingDisplay";
+import Spinner from "../../images/spinner/spinner";
 import imagePlaceholder from "../../images/no-image-icon.png";
 import {
   boxStyle,
@@ -206,12 +205,12 @@ const Ad = (props) => {
   return (
     <div className="ad__page">
       {props.loading ? (
-        <LoadingDisplay />
+        <Spinner />
       ) : (
         <Fragment>
           <Alert />
           {!props.adDetails.owner ? (
-            <LoadingDisplay />
+            <Spinner />
           ) : (
             <Box sx={boxStyle}>
               <Paper sx={paperStyle}>

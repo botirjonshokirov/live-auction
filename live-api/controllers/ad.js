@@ -142,18 +142,16 @@ exports.updateAd = async (req, res, next) => {
 // @desc    Delete an ad
 exports.deleteAd = async (req, res, next) => {
   const adId = req.params.id;
+  // console.log(adId);
   try {
     let ad = await Ad.findById(adId);
-    if (!ad) return res.status(404).json({ errors: [{ msg: "Ad not found" }] });
-    if (ad.owner != req.user.id)
-      return res
-        .status(401)
-        .json({ errors: [{ msg: "Unauthorized to delete this ad" }] });
-    if (ad.auctionStarted || ad.auctionEnded)
-      return res
-        .status(404)
-        .json({ errors: [{ msg: "Cannot delete, auction started/ended" }] });
-    await Ad.deleteOne(ad);
+    // console.log(ad);
+    // if (!ad) return res.status(404).json({ errors: [{ msg: "Ad not found" }] });
+    // if (ad.auctionStarted || ad.auctionEnded)
+    //   return res
+    //     .status(404)
+    //     .json({ errors: [{ msg: "Cannot delete, auction started/ended" }] });
+    await Ad.deleteOne({ _id: adId });
     res.status(200).json({ msg: "Deleted" });
   } catch (err) {
     console.log(err);
