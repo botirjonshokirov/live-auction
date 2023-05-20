@@ -12,7 +12,7 @@ import { removeAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 // Files
 import "../css/auth.css";
-import Spinner from "../utils/Spinner";
+import Spinner from "../../images/spinner/spinner";
 import Alert from "../utils/Alert";
 
 const Register = (props) => {

@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, Typography, Button } from "@mui/material";
 
 const ItemCard = ({ item }) => {
-  const handleEdit = (item) => {
+  const [editing, setEditing] = useState(false);
+  const [editedValues, setEditedValues] = useState({
+    basePrice: item.basePrice.$numberDecimal,
+    productName: item.productName,
+    description: item.description,
+  });
+  const handleEdit = () => {
+    setEditing(true);
+  };
+  const handleSave = () => {
     // Make PUT request to update the ad with the given id
     fetch(`${process.env.REACT_APP_API_BASE_URL}/ad/${item._id}`, {
       method: "PUT",
@@ -11,14 +20,21 @@ const ItemCard = ({ item }) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        // Include updated data for the ad in the request body
-        // For example: { productName: "New product name" }
+        basePrice: editedValues.basePrice,
+        productName: editedValues.productName,
+        description: editedValues.description,
       }),
     })
       .then((res) => {
-        // Handle response from the server
+        if (res.ok) {
+          setEditing(false);
+          console.log("Item updated");
+        } else {
+          throw new Error("Item update failed");
+        }
       })
       .catch((err) => {
+        // Handle network errors or other exceptions
         console.log(err);
       });
   };
@@ -33,14 +49,16 @@ const ItemCard = ({ item }) => {
     if (confirmDelete) {
       fetch(`${process.env.REACT_APP_API_BASE_URL}/ad/${item._id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
       })
         .then((res) => {
-          // Handle response from the server
+          if (res.ok) {
+            console.log("Item deleted");
+          } else {
+            throw new Error("Item deletion failed");
+          }
         })
         .catch((err) => {
+          // Handle network errors or other exceptions
           console.log(err);
         });
     }
@@ -49,16 +67,50 @@ const ItemCard = ({ item }) => {
   return (
     <Card sx={{ width: 300, margin: 10 }}>
       <CardContent>
-        <Typography variant="h6">{item.productName}</Typography>
-        <Typography variant="subtitle1">{item.description}</Typography>
-        <Typography variant="subtitle2">
-          Base Price: {item.basePrice.$numberDecimal}
-        </Typography>
-        <Typography variant="subtitle2">
-          Current Price: {item.currentPrice.$numberDecimal}
-        </Typography>
-        <Typography variant="subtitle2">Category: {item.category}</Typography>
-        <Button onClick={() => handleEdit(item)}>Edit</Button>
+        {editing ? (
+          <>
+            <input
+              type="number"
+              value={editedValues.basePrice}
+              onChange={(e) =>
+                setEditedValues({
+                  ...editedValues,
+                  basePrice: e.target.value,
+                })
+              }
+            />
+            <input
+              type="text"
+              value={editedValues.productName}
+              onChange={(e) =>
+                setEditedValues({
+                  ...editedValues,
+                  productName: e.target.value,
+                })
+              }
+            />
+            <textarea
+              value={editedValues.description}
+              onChange={(e) =>
+                setEditedValues({
+                  ...editedValues,
+                  description: e.target.value,
+                })
+              }
+            />
+            <Button onClick={handleSave}>Save</Button>
+          </>
+        ) : (
+          <>
+            <Typography variant="subtitle2">
+              Base Price: {item.basePrice.$numberDecimal}
+            </Typography>
+            <Typography variant="h6">{item.productName}</Typography>
+            <Typography variant="subtitle1">{item.description}</Typography>
+            <Button onClick={handleEdit}>Edit</Button>
+          </>
+        )}
+
         <Button
           onClick={() => handleDelete(item)}
           style={{ color: "white", backgroundColor: "red" }}

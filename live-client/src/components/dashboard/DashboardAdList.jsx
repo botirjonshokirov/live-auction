@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 // Components
-import LoadingDisplay from "../utils/LoadingDisplay";
 import Card from "../item/Card";
 import { Button, Box, ButtonGroup } from "@mui/material";
 // Styling
@@ -11,6 +10,7 @@ import {
   paginationStyle,
   dashCardStyle,
 } from "../css/dashStyle";
+import Spinner from "../../images/spinner/spinner";
 
 const DashboardAdList = () => {
   const [ads, setAds] = useState([]);
@@ -43,7 +43,7 @@ const DashboardAdList = () => {
   };
 
   return loading ? (
-    <LoadingDisplay />
+    <Spinner />
   ) : (
     <Fragment>
       <Box sx={boardStyle}>

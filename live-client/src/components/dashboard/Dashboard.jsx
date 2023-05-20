@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // MUI
@@ -23,9 +23,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 // Project files
-import Spinner from "../utils/Spinner";
+import Spinner from "../../images/spinner/spinner";
 import DashboardAdList from "./DashboardAdList";
-import LoadingDisplay from "../utils/LoadingDisplay";
 // Actions
 import { getUserPurchasedAds } from "../../actions/ad";
 import DashPurchasedList from "./DashPurchasedList";
@@ -34,6 +33,17 @@ import "./Dashboard.css";
 
 const Dashboard = (props) => {
   const navigate = useNavigate();
+  const [avatarUrl, setAvatarUrl] = useState(null);
+
+  useEffect(() => {
+    if (props.isAuth) {
+      props.getUserPurchasedAds();
+      // Generate the avatar URL using DiceBear API
+      const userId = props.user._id.toString();
+      const avatarUrl = `https://robohash.org/${userId}`;
+      setAvatarUrl(avatarUrl);
+    }
+  }, [props, props.loading]);
 
   useEffect(() => {
     if (props.isAuth) {
@@ -64,15 +74,13 @@ const Dashboard = (props) => {
                 <Avatar
                   className="avatar"
                   style={{ width: "100px", height: "100px" }}
-                >
-                  {props.user.username.charAt(0).toUpperCase()}
-                </Avatar>
-                <button className="add-photo-button">Add Photo</button>
+                  src={avatarUrl}
+                />
               </div>
             </Grid>
             <Grid item xs={10}>
               <Typography variant="h5" component="div">
-                <AccountCircleIcon fontSize="inherit" /> My Profile
+                My Profile
               </Typography>
             </Grid>
           </Grid>
@@ -143,7 +151,7 @@ const Dashboard = (props) => {
             <ShoppingCartIcon fontSize="inherit" /> My purchases
           </Typography>
           {props.purchasedLoading ? (
-            <LoadingDisplay />
+            <Spinner />
           ) : (
             <DashPurchasedList ads={props.purchased} />
           )}

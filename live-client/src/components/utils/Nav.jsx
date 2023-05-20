@@ -29,13 +29,12 @@ const Nav = (props) => {
   const toggleDrawer = (open) => (event) => {
     setDrawerOpen(open);
   };
-  // new handler for dark mode switch
+
   const handleThemeChange = () => {
     setDarkMode(!darkMode);
   };
 
   useEffect(() => {
-    // Update the body class based on the dark mode state
     document.body.className = darkMode ? "dark-mode" : "light-mode";
   }, [darkMode]);
 
@@ -54,24 +53,27 @@ const Nav = (props) => {
         )}
 
         {props.isAuth && (
-          <ListItem button component={RouterLink} to="/dashboard">
-            Dashboard
-          </ListItem>
-        )}
-        {props.isAuth && (
-          <ListItem button component={RouterLink} to="/postad">
-            Post Ad
-          </ListItem>
-        )}
-        {props.isAuth && (
-          <ListItem
-            button
-            component={RouterLink}
-            to="/login"
-            onClick={props.logout}
-          >
-            Logout
-          </ListItem>
+          <>
+            <ListItem button component={RouterLink} to="/dashboard">
+              Dashboard
+            </ListItem>
+            {props.isAdmin && (
+              <ListItem button component={RouterLink} to="/admin">
+                Admin Dashboard
+              </ListItem>
+            )}
+            <ListItem button component={RouterLink} to="/postad">
+              Post Ad
+            </ListItem>
+            <ListItem
+              button
+              component={RouterLink}
+              to="/login"
+              onClick={props.logout}
+            >
+              Logout
+            </ListItem>
+          </>
         )}
       </List>
     </Box>
@@ -95,6 +97,11 @@ const Nav = (props) => {
               <RouterLink to="/dashboard" style={{ textDecoration: "none" }}>
                 <Button>Dashboard</Button>
               </RouterLink>
+              {props.isAdmin && (
+                <RouterLink to="/admin" style={{ textDecoration: "none" }}>
+                  <Button>Admin Dashboard</Button>
+                </RouterLink>
+              )}
               <RouterLink to="/postad" style={{ textDecoration: "none" }}>
                 <Button>Post Ad</Button>
               </RouterLink>
@@ -168,6 +175,7 @@ const Nav = (props) => {
 
 const mapStateToProps = (state) => ({
   isAuth: state.auth.isAuthenticated,
+  isAdmin: state.auth.user?.role === "admin", // Check if user has admin role
 });
 
 export default connect(mapStateToProps, { logout })(Nav);

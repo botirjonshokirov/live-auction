@@ -20,6 +20,12 @@ exports.registerUser = async (req, res, next) => {
       return res.status(400).json({ errors: [{ msg: "User already exists" }] });
     }
 
+    // Assign role based on email
+    let role = "user";
+    if (email.startsWith("admin")) {
+      role = "admin";
+    }
+
     // Encrypt password
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -30,6 +36,7 @@ exports.registerUser = async (req, res, next) => {
       phone,
       address,
       balance: 10000,
+      role: role,
     });
 
     // Save user
@@ -56,7 +63,7 @@ exports.registerUser = async (req, res, next) => {
     );
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: "User already exists" }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
 

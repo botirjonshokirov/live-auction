@@ -23,10 +23,10 @@ import {
   formTextField,
   formSubmitButtonContainer,
 } from "../css/adStyles";
-import LoadingDisplay from "../utils/LoadingDisplay";
 // Actions
 import { postAd } from "../../actions/ad";
 import { setAlert, clearAlerts } from "../../actions/alert";
+import Spinner from "../../images/spinner/spinner";
 
 const AdForm = (props) => {
   const [form, setForm] = useState({
@@ -218,7 +218,7 @@ const AdForm = (props) => {
             ></TextField>
           </Box> */}
           {uploading ? (
-            <LoadingDisplay />
+            <Spinner />
           ) : (
             <Box sx={formComponent}>
               <InputLabel>Upload image</InputLabel>

@@ -38,6 +38,6 @@ router.put("/:id", isAuth, adController.updateAd);
 // @route   DELETE /ad/:id
 // @desc    Delete an ad
 // @access  protected
-router.delete("/:id", isAuth, adController.deleteAd);
+router.delete("/:id", adController.deleteAd);
 
 module.exports = router;

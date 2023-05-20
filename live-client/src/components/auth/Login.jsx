@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 import { TextField, Button, Typography } from "@mui/material";
 import { login, skipLogin } from "../../actions/auth";
 import { setAlert, removeAlert } from "../../actions/alert";
-import Spinner from "../utils/Spinner";
+import Spinner from "../../images/spinner/spinner";
 import Alert from "../utils/Alert";
 import "./Login.css";
 
