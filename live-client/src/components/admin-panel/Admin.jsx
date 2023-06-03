@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import UserList from "./admin-list/users/UserList";
 import ItemList from "./admin-list/items/ItemList";
 import ExportData from "./admin-list/export/ExportData";
+import AdminProfile from "./admin-list/profile/AdminProfile";
 
 const Admin = (props) => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -87,12 +88,9 @@ const Admin = (props) => {
   );
 };
 
-const AdminProfile = () => {
-  return <div>Admin Profile</div>;
-};
-
 const mapStateToProps = (state) => ({
   isAdmin: state.auth.user?.role === "admin",
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps)(Admin);

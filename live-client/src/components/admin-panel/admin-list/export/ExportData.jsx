@@ -16,6 +16,35 @@ const ExportData = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [items, setItems] = useState([]);
   const [owners, setOwners] = useState({});
+  const [purchasers, setPurchasers] = useState({});
+
+  useEffect(() => {
+    const fetchPurchasers = async () => {
+      const purchaserIds = items
+        .filter((item) => item.sold)
+        .map((item) => item.purchasedBy);
+      const uniquePurchaserIds = [...new Set(purchaserIds)]; // Get unique purchaser ids
+      const purchaserRequests = uniquePurchaserIds.map((purchaserId) =>
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/${purchaserId}`)
+      );
+      try {
+        const purchaserResponses = await Promise.all(purchaserRequests);
+        const purchasersData = purchaserResponses.reduce((acc, response) => {
+          const purchaser = response.data;
+          if (!(purchaser._id in acc)) {
+            acc[purchaser._id] = purchaser.username;
+          }
+          return acc;
+        }, {});
+        setPurchasers(purchasersData);
+      } catch (error) {
+        console.log("Error fetching purchasers:", error);
+      }
+    };
+    if (items.length > 0) {
+      fetchPurchasers();
+    }
+  }, [items]);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -64,7 +93,7 @@ const ExportData = () => {
       "Current Price": item.currentPrice.$numberDecimal,
       Sold: item.sold ? "Yes" : "No",
       Owner: owners[item.owner],
-      "Purchased By": item.purchasedBy,
+      "Purchased By": item.sold ? purchasers[item.purchasedBy] : "No purchaser",
       "No. of Bids": item.bids.length,
     }));
     const ws = XLSX.utils.json_to_sheet(data);
@@ -87,44 +116,84 @@ const ExportData = () => {
       >
         Export to Excel
       </Button>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Product Name</TableCell>
-              <TableCell align="right">Base Price</TableCell>
-              <TableCell align="right">Current Price</TableCell>
-              <TableCell align="right">Sold</TableCell>
-              <TableCell align="right">Owner</TableCell>
-              <TableCell align="right">Purchased By</TableCell>
-
-              <TableCell align="right">No. of Bids</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow
-                key={item._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {item.productName}
+      <div style={{ maxHeight: "700px", overflow: "auto" }}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell
+                  sx={{ backgroundColor: "#f2f2f2", color: "#333333" }}
+                >
+                  Product Name
                 </TableCell>
-                <TableCell align="right">
-                  {item.basePrice.$numberDecimal}
+                <TableCell
+                  align="right"
+                  sx={{ backgroundColor: "#f2f2f2", color: "#333333" }}
+                >
+                  Base Price
                 </TableCell>
-                <TableCell align="right">
-                  {item.currentPrice.$numberDecimal}
+                <TableCell
+                  align="right"
+                  sx={{ backgroundColor: "#f2f2f2", color: "#333333" }}
+                >
+                  Current Price
                 </TableCell>
-                <TableCell align="right">{item.sold ? "Yes" : "No"}</TableCell>
-                <TableCell align="right">{owners[item.owner]}</TableCell>
-                <TableCell align="right">{item.purchasedBy}</TableCell>
-                <TableCell align="right">{item.bids.length}</TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ backgroundColor: "#f2f2f2", color: "#333333" }}
+                >
+                  Sold
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ backgroundColor: "#f2f2f2", color: "#333333" }}
+                >
+                  Owner
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ backgroundColor: "#f2f2f2", color: "#333333" }}
+                >
+                  Purchased By
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ backgroundColor: "#f2f2f2", color: "#333333" }}
+                >
+                  No. of Bids
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+
+            <TableBody>
+              {items.map((item) => (
+                <TableRow
+                  key={item._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {item.productName}
+                  </TableCell>
+                  <TableCell align="right">
+                    {item.basePrice.$numberDecimal}
+                  </TableCell>
+                  <TableCell align="right">
+                    {item.currentPrice.$numberDecimal}
+                  </TableCell>
+                  <TableCell align="right">
+                    {item.sold ? "Yes" : "No"}
+                  </TableCell>
+                  <TableCell align="right">{owners[item.owner]}</TableCell>
+                  <TableCell align="right">
+                    {item.sold ? purchasers[item.purchasedBy] : "No purchaser"}
+                  </TableCell>
+                  <TableCell align="right">{item.bids.length}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
   );
 };
